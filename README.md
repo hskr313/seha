@@ -1,3 +1,6 @@
+# Projet Développement Web - Université
+
+Ce projet a été réalisé dans le cadre du cours "Projet Développement Web" à l'université, en collaboration avec @Veynah.
 
 # Installation du Projet PHP en Local
 
@@ -93,4 +96,4 @@ if ($conn->connect_error) {
 }
 ```
 
-En suivant ces étapes, vous pourrez configurer et exécuter votre projet PHP natif en local avec MAMP sur macOS et WAMP sur Windows.
+En suivant ces étapes, vous pourrez configurer et exécuter seha en local avec MAMP sur macOS et WAMP sur Windows.
