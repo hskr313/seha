@@ -1,3 +1,4 @@
+
 # Projet Développement Web - Université
 
 Ce projet a été réalisé dans le cadre du cours "Projet Développement Web" à l'université, en collaboration avec @Veynah.
@@ -21,8 +22,7 @@ Copiez les fichiers de votre projet dans le répertoire approprié :
 
 ### Étape 2: Scripts SQL
 
-Assurez-vous que vos fichiers SQL pour créer la base de données et la remplir sont dans le dossier du projet :
-- `create_db_service_exchange.sql`
+Assurez-vous que le fichier SQL pour remplir la base de données est dans le dossier du projet "/db" :
 - `service_exchange_seed.sql`
 
 ### Étape 3: Exécuter les scripts PHP
@@ -80,7 +80,6 @@ Assurez-vous que votre fichier de connexion à la base de données est correctem
 **db_connect.php** :
 
 ```php
-<?php
 <?php
 $servername = "localhost";
 $username = "root";
