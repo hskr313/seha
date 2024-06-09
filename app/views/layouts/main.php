@@ -6,7 +6,7 @@
     <title><?php echo isset($title) ? $title : 'Service Exchange'; ?></title>
     <!-- Inclure Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/styles.css" rel="stylesheet">
+    <link href="/seha/public/css/styles.css?v=<?php echo time(); ?>" rel="stylesheet">
 </head>
 <body>
 <div class="d-flex flex-column vh-100">

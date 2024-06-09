@@ -1,3 +1,10 @@
 RewriteEngine On
+
+# Exclure les fichiers spécifiques dans le répertoire db de la redirection
+RewriteCond %{REQUEST_URI} ^/seha/db/create_db.php [OR]
+RewriteCond %{REQUEST_URI} ^/seha/db/seed_db.php
+RewriteRule ^ - [L]
+
+# Rediriger tout vers le dossier public
 RewriteRule ^$ public/ [L]
 RewriteRule (.*) public/$1 [L]

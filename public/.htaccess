@@ -1,4 +1,8 @@
 RewriteEngine On
+
+# Exclure les fichiers dans le répertoire db de la redirection
+RewriteCond %{REQUEST_URI} !^/seha/db/
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]
