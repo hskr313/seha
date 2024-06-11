@@ -1,7 +1,7 @@
 <?php
 class BaseController {
     protected function view($view, $data = []) {
-        $viewPath = '../app/views/' . $view . '.php';
+        $viewPath = "../app/views/$view.php";
         $layoutPath = '../app/views/layouts/main.php';
 
         if (file_exists($viewPath)) {
@@ -11,7 +11,7 @@ class BaseController {
             $content = ob_get_clean();
             require_once $layoutPath;
         } else {
-            die("View file not found.");
+            die("View file not found: $viewPath");
         }
     }
 }

@@ -22,21 +22,28 @@ spl_autoload_register(function ($class) {
     }
 });
 
-$url = isset($_GET['url']) ? rtrim($_GET['url'], '/') : 'home';
+$url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$url = str_replace('/seha/public/', '', $url);
+$url = rtrim($url, '/');
 $url = explode('/', $url);
 
-$controller = isset($url[0]) ? ucfirst($url[0]) . 'Controller' : 'HomeController';
-$method = isset($url[1]) ? $url[1] : 'index';
+$controllerName = !empty($url[0]) ? ucfirst($url[0]) . 'Controller' : 'HomeController';
+$method = !empty($url[1]) ? $url[1] : 'index';
+$params = array_slice($url, 2);
 
-if (class_exists($controller)) {
-    $controller = new $controller;
+// Ajout d'un message de débogage
+echo "URL: " . implode('/', $url) . "<br>";
+echo "Controller: " . $controllerName . "<br>";
+echo "Method: " . $method . "<br>";
+echo "Params: " . implode(',', $params) . "<br>";
+
+if (class_exists($controllerName)) {
+    $controller = new $controllerName;
     if (method_exists($controller, $method)) {
-        unset($url[0]);
-        unset($url[1]);
-        call_user_func_array([$controller, $method], $url ? array_values($url) : []);
+        call_user_func_array([$controller, $method], $params);
     } else {
         echo "Method $method not found!";
     }
 } else {
-    echo "Controller $controller not found!";
+    echo "Controller $controllerName not found!";
 }

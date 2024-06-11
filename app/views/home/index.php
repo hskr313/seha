@@ -1,4 +1,4 @@
-<div class="card my-4">
+<div class="card">
     <div class="card-body">
         <h5 class="card-title">User Information</h5>
         <?php

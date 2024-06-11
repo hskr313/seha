@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($title) ? $title : 'Service Exchange'; ?></title>
-    <!-- Inclure Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="/seha/public/css/styles.css?v=<?php echo time(); ?>" rel="stylesheet">
 </head>
 <body>
 <div class="d-flex flex-column vh-100">
     <header class="flex-shrink-0">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-custom">
             <a class="navbar-brand" href="#">Service Exchange</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -21,16 +20,22 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="/seha/public">Home <span class="sr-only">(current)</span></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/seha/public/about">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/seha/public/about/team">Our Team</a>
+                    </li>
                 </ul>
             </div>
         </nav>
     </header>
     <main class="flex-grow-1">
-        <div class="container my-4">
+        <div>
             <?php echo $content; ?>
         </div>
     </main>
-    <footer class="flex-shrink-0 bg-light text-center py-3">
+    <footer class="footer-custom text-center py-3">
         <p>&copy; 2024 Service Exchange. All rights reserved.</p>
     </footer>
 </div>

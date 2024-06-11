@@ -62,7 +62,7 @@ function generateTableName($shortName): string
     // Éviter les répétitions de 's' à la fin des noms de tables
     if (substr($tableName, -1) === 's') {
         $tableName .= 'es';
-    } else if (substr($tableName, -1) === 'y') {
+    } elseif (substr($tableName, -1) === 'y') {
         $tableName = substr_replace($tableName, 'ies', -1);
     } else {
         $tableName .= 's';
