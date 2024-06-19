@@ -4,7 +4,7 @@ class AuthMiddleware {
         return isset($_SESSION['user_id']);
     }
 
-    public static function getUser() {
+    public static function getUser(): ?UserEntity {
         if (!self::isAuthenticated()) {
             return null;
         }

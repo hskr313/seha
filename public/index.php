@@ -38,8 +38,8 @@ if (class_exists($controllerName)) {
     if (method_exists($controller, $method)) {
         call_user_func_array([$controller, $method], $params);
     } else {
-        echo "Method $method not found!";
+        include '../app/views/404.php';
     }
 } else {
-    echo "Controller $controllerName not found!";
+    include '../app/views/404.php';
 }
