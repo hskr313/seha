@@ -1,8 +1,8 @@
 <?php
 class BaseController {
-    protected function view($view, $data = []) {
+    protected function view($view, $data = [], $layout = 'main') {
         $viewPath = "../app/views/$view.php";
-        $layoutPath = '../app/views/layouts/main.php';
+        $layoutPath = "../app/views/layouts/$layout.php";
 
         if (file_exists($viewPath)) {
             extract($data);

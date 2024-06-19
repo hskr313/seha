@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -30,12 +32,6 @@ $url = explode('/', $url);
 $controllerName = !empty($url[0]) ? ucfirst($url[0]) . 'Controller' : 'HomeController';
 $method = !empty($url[1]) ? $url[1] : 'index';
 $params = array_slice($url, 2);
-
-// Ajout d'un message de débogage
-echo "URL: " . implode('/', $url) . "<br>";
-echo "Controller: " . $controllerName . "<br>";
-echo "Method: " . $method . "<br>";
-echo "Params: " . implode(',', $params) . "<br>";
 
 if (class_exists($controllerName)) {
     $controller = new $controllerName;

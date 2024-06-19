@@ -1,7 +1,15 @@
 <?php
+
+use Couchbase\User;
+
 class UserRepository extends BaseRepository {
     public function __construct() {
         parent::__construct('Users', UserEntity::class);
+    }
+
+    public function findByEmail(string $email): ?UserEntity {
+        $result = $this->findByCriteria(['email' => $email]);
+        return $result ? $result[0] : null;
     }
 
     public function getUsersCount(): int {
@@ -14,10 +22,6 @@ class UserRepository extends BaseRepository {
 
         $data = $result->fetch_assoc();
         return $data['count'];
-    }
-
-    public function findById(int $id): ?UserEntity {
-        return parent::findById($id);
     }
 }
 
