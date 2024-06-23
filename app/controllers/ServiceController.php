@@ -14,6 +14,9 @@ class ServiceController extends BaseController {
 
         $data = json_decode(file_get_contents('php://input'), true);
 
+        // Log incoming data
+        error_log('Received data: ' . print_r($data, true));
+
         $serviceData = [
             'user_id' => $_SESSION['user_id'],
             'category_id' => $data['category_id'] ?? null,
@@ -23,8 +26,12 @@ class ServiceController extends BaseController {
             'is_published' => isset($data['is_published']) ? 1 : 0,
         ];
 
+        // Log processed service data
+        error_log('Processed service data: ' . print_r($serviceData, true));
+
         $result = $serviceRepository->create($serviceData);
 
+        header('Content-Type: application/json');
         if ($result) {
             echo json_encode(['status' => 'success']);
         } else {
@@ -40,15 +47,22 @@ class ServiceController extends BaseController {
 
         $data = json_decode(file_get_contents('php://input'), true);
 
+        // Log incoming data
+        error_log('Received data: ' . print_r($data, true));
+
         $serviceId = $data['id'];
         $serviceData = [
-            'service_type' => $data['service_type'],
-            'description' => $data['description'],
-            'is_published' => $data['is_published'] ? 1 : 0,
+            'service_type' => $data['name'] ?? '',
+            'description' => $data['description'] ?? '',
+            'is_published' => isset($data['is_published']) ? 1 : 0,
         ];
+
+        // Log processed service data
+        error_log('Processed service data: ' . print_r($serviceData, true));
 
         $result = $serviceRepository->update($serviceId, $serviceData);
 
+        header('Content-Type: application/json');
         if ($result) {
             echo json_encode(['status' => 'success']);
         } else {
@@ -64,10 +78,15 @@ class ServiceController extends BaseController {
 
         $data = json_decode(file_get_contents('php://input'), true);
         $serviceId = $data['id'];
-        $serviceRepository->delete($serviceId);
+
+        $result = $serviceRepository->delete($serviceId);
 
         header('Content-Type: application/json');
-        echo json_encode(['status' => 'success']);
+        if ($result) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
         exit();
     }
 
@@ -77,8 +96,11 @@ class ServiceController extends BaseController {
 
         $data = json_decode(file_get_contents('php://input'), true);
 
+        // Log incoming data
+        error_log('Received data: ' . print_r($data, true));
+
         $serviceId = $data['id'];
-        $isPublished = $data['is_published'] ? 1 : 0;
+        $isPublished = isset($data['is_published']) ? 1 : 0;
 
         $result = $serviceRepository->update($serviceId, ['is_published' => $isPublished]);
 
@@ -91,3 +113,4 @@ class ServiceController extends BaseController {
         exit();
     }
 }
+?>

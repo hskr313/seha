@@ -22,7 +22,7 @@
                         <td><?php echo htmlspecialchars($service->service_type); ?></td>
                         <td><?php echo htmlspecialchars($service->description); ?></td>
                         <td>
-                            <input type="checkbox" class="form-check-input btn-toggle-publish" <?php echo $service->is_published ? 'checked' : ''; ?>>
+                            <input type="checkbox" class="form-check-input btn-toggle-publish" disabled <?php echo $service->is_published ? 'checked' : ''; ?>>
                         </td>
                         <td>
                             <button class="btn btn-primary btn-sm btn-edit">Edit</button>
@@ -103,7 +103,6 @@
                             descriptionCell.contentEditable = false;
                             publishCheckbox.disabled = true;
                             button.innerText = 'Edit';
-                            alert('Service updated successfully');
                         } else {
                             alert('Failed to update service');
                         }
@@ -126,7 +125,6 @@
                 }).then(response => response.json()).then(data => {
                     if (data.status === 'success') {
                         row.remove();
-                        alert('Service deleted successfully');
                     } else {
                         alert('Failed to delete service');
                     }

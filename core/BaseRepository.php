@@ -63,6 +63,8 @@ class BaseRepository {
         $values[] = $id;
         $setString = implode(", ", $sets);
 
+        error_log(print_r($setString, true));
+
         $stmt = $this->db->prepare("UPDATE {$this->table} SET $setString WHERE id = ?");
         if (!$stmt) {
             die("Prepare failed: " . $this->db->error);
