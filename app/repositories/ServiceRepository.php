@@ -7,4 +7,11 @@ class ServiceRepository extends BaseRepository {
     public function findByUserId($userId) {
         return $this->findByCriteria(['user_id' => $userId]);
     }
+
+    public function findById(int $id): ?ServiceEntity
+    {
+        return parent::findById($id);
+    }
+
+
 }

@@ -19,7 +19,7 @@
                 <?php foreach ($services ?? [] as $service): ?>
                     <tr data-id="<?php echo $service->id; ?>">
                         <th scope="row"><?php echo $service->id; ?></th>
-                        <td><?php echo htmlspecialchars($service->service_type); ?></td>
+                        <td><?php echo htmlspecialchars($service->name); ?></td>
                         <td><?php echo htmlspecialchars($service->description); ?></td>
                         <td>
                             <input type="checkbox" class="form-check-input btn-toggle-publish" disabled <?php echo $service->is_published ? 'checked' : ''; ?>>
@@ -49,8 +49,8 @@
             <div class="modal-body">
                 <form id="createServiceForm">
                     <div class="form-group">
-                        <label for="serviceType">Service Type</label>
-                        <input type="text" class="form-control" id="serviceType" name="service_type" required>
+                        <label for="name">Service Type</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
                     </div>
                     <div class="form-group">
                         <label for="serviceTitle">Title</label>

@@ -23,13 +23,13 @@ INSERT INTO categories (category_logical_value, category_name) VALUES
 ('pet_sitting', 'Garde d\'animaux');
 
 -- Seed Services
-INSERT INTO services (user_id, category_id, service_type, title, description, is_published) VALUES
-(2, 1, 'Jardinage', 'Tonte de pelouse', 'Je vais tondre votre pelouse pendant 1 heure.', true),
-(3, 2, 'Couture', 'Retouches de vêtements', 'Je peux retoucher vos vêtements pour mieux les ajuster.', true),
-(4, 3, 'Support Informatique', 'Réparation d\'ordinateur', 'Je vais réparer vos problèmes informatiques.', true),
-(2, 4, 'Peinture', 'Peinture de murs', 'Je peux peindre vos murs avec la couleur de votre choix.', false),
-(3, 5, 'Soutien Scolaire', 'Tutorat de mathématiques', 'Je peux tutorat en mathématiques pour les élèves du secondaire.', true),
-(4, 6, 'Garde d\'animaux', 'Promenade de chien', 'Je vais promener votre chien pendant une heure.', true);
+INSERT INTO services (user_id, category_id, name, description, is_published) VALUES
+(2, 1, 'Tonte de pelouse', 'Je vais tondre votre pelouse pendant 1 heure.', true),
+(3, 2, 'Retouches de vêtements', 'Je peux retoucher vos vêtements pour mieux les ajuster.', true),
+(4, 3, 'Réparation d\'ordinateur', 'Je vais réparer vos problèmes informatiques.', true),
+(2, 4, 'Peinture de murs', 'Je peux peindre vos murs avec la couleur de votre choix.', false),
+(3, 5, 'Tutorat de mathématiques', 'Je peux tutorat en mathématiques pour les élèves du secondaire.', true),
+(4, 6, 'Promenade de chien', 'Je vais promener votre chien pendant une heure.', true);
 
 -- Seed Service Requests Status
 INSERT INTO service_request_statuses (status_logical_value, status_label) VALUES

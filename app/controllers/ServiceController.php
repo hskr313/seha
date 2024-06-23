@@ -17,19 +17,20 @@ class ServiceController extends BaseController {
         // Log incoming data
         error_log('Received data: ' . print_r($data, true));
 
-        $serviceData = [
-            'user_id' => $_SESSION['user_id'],
-            'category_id' => $data['category_id'] ?? null,
-            'service_type' => $data['service_type'] ?? '',
-            'title' => $data['title'] ?? '',
-            'description' => $data['description'] ?? '',
-            'is_published' => isset($data['is_published']) ? 1 : 0,
-        ];
+        // Create and validate the ServiceEntity object
+        $serviceEntity = new ServiceEntity(
+            null,
+            $_SESSION['user_id'],
+            $data['category_id'] ?? null,
+            $data['name'] ?? '',
+            $data['description'] ?? '',
+            isset($data['is_published']) ? 1 : 0
+        );
 
-        // Log processed service data
-        error_log('Processed service data: ' . print_r($serviceData, true));
+        // Log the hydrated entity
+        error_log('Created entity: ' . print_r($serviceEntity, true));
 
-        $result = $serviceRepository->create($serviceData);
+        $result = $serviceRepository->create($serviceEntity);
 
         header('Content-Type: application/json');
         if ($result) {
@@ -51,16 +52,17 @@ class ServiceController extends BaseController {
         error_log('Received data: ' . print_r($data, true));
 
         $serviceId = $data['id'];
-        $serviceData = [
-            'service_type' => $data['name'] ?? '',
-            'description' => $data['description'] ?? '',
-            'is_published' => isset($data['is_published']) ? 1 : 0,
-        ];
+        $name = $data['name'] ?? '';
+        $description = $data['description'] ?? '';
 
-        // Log processed service data
-        error_log('Processed service data: ' . print_r($serviceData, true));
+        $serviceEntity = $serviceRepository->findById($serviceId);
+        $serviceEntity->name = $name;
+        $serviceEntity->description = $description;
 
-        $result = $serviceRepository->update($serviceId, $serviceData);
+        // Log the created entity
+        error_log('Created entity: ' . print_r($serviceEntity, true));
+
+        $result = $serviceRepository->update($serviceId, $serviceEntity);
 
         header('Content-Type: application/json');
         if ($result) {
@@ -102,7 +104,10 @@ class ServiceController extends BaseController {
         $serviceId = $data['id'];
         $isPublished = isset($data['is_published']) ? 1 : 0;
 
-        $result = $serviceRepository->update($serviceId, ['is_published' => $isPublished]);
+        $serviceEntity = $serviceRepository->findById($serviceId);
+        $serviceEntity->is_published = $isPublished;
+
+        $result = $serviceRepository->update($serviceId, $serviceEntity);
 
         header('Content-Type: application/json');
         if ($result) {
@@ -113,4 +118,3 @@ class ServiceController extends BaseController {
         exit();
     }
 }
-?>

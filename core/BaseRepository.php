@@ -40,7 +40,8 @@ class BaseRepository {
         return $data ? $this->mapToEntity($data) : null;
     }
 
-    public function create(array $data): bool {
+    public function create(object $entity): bool {
+        $data = $this->extract($entity);
         $columns = implode(", ", array_keys($data));
         $placeholders = implode(", ", array_fill(0, count($data), '?'));
         $values = array_values($data);
@@ -53,7 +54,8 @@ class BaseRepository {
         return $stmt->execute();
     }
 
-    public function update(int $id, array $data): bool {
+    public function update(int $id, object $entity): bool {
+        $data = $this->extract($entity);
         $sets = [];
         $values = [];
         foreach ($data as $column => $value) {
@@ -119,6 +121,17 @@ class BaseRepository {
             }
         }
         return $entity;
+    }
+
+    protected function extract(object $entity): array {
+        $reflect = new ReflectionClass($entity);
+        $properties = $reflect->getProperties();
+        $data = [];
+        foreach ($properties as $property) {
+            $property->setAccessible(true);
+            $data[$property->getName()] = $property->getValue($entity);
+        }
+        return $data;
     }
 
     /**
