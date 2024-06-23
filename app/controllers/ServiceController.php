@@ -16,7 +16,7 @@ class ServiceController extends BaseController {
         $serviceData = [
             'name' => $_POST['name'],
             'description' => $_POST['description'],
-            // Ajoutez d'autres champs ici
+            'is_published' => $_POST['is_published'] ? 1 : 0,
         ];
 
         $serviceRepository->update($serviceId, $serviceData);
@@ -33,6 +33,24 @@ class ServiceController extends BaseController {
         $serviceRepository->delete($serviceId);
 
         echo json_encode(['status' => 'success']);
+        exit();
+    }
+
+    public function togglePublish() {
+        AuthMiddleware::requireAuth();
+        $serviceRepository = new ServiceRepository();
+
+        $data = json_decode(file_get_contents('php://input'), true);
+        $serviceId = $data['id'];
+        $isPublished = $data['is_published'] ? 1 : 0;
+
+        $result = $serviceRepository->update($serviceId, ['is_published' => $isPublished]);
+
+        if ($result) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
         exit();
     }
 }

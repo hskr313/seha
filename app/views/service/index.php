@@ -10,15 +10,21 @@
                     <th scope="col">ID</th>
                     <th scope="col">Name</th>
                     <th scope="col">Description</th>
+                    <th scope="col">Published</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($services ?? null as $service): ?>
+                <?php foreach ($services ?? [] as $service): ?>
                     <tr data-id="<?php echo $service->id; ?>">
                         <th scope="row"><?php echo $service->id; ?></th>
                         <td contenteditable="true"><?php echo htmlspecialchars($service->service_type); ?></td>
                         <td contenteditable="true"><?php echo htmlspecialchars($service->description); ?></td>
+                        <td>
+                            <button class="btn btn-toggle-publish">
+                                <i class="fas <?php echo $service->is_published ? 'fa-toggle-on' : 'fa-toggle-off'; ?>"></i>
+                            </button>
+                        </td>
                         <td>
                             <button class="btn btn-primary btn-sm btn-edit">Edit</button>
                             <button class="btn btn-danger btn-sm btn-delete">Delete</button>
@@ -77,5 +83,29 @@
                 });
             });
         });
+
+        document.querySelectorAll('.btn-toggle-publish').forEach(button => {
+            button.addEventListener('click', function() {
+                const row = this.closest('tr');
+                const id = row.getAttribute('data-id');
+                const icon = this.querySelector('i');
+                const isPublished = icon.classList.contains('fa-toggle-on') ? 0 : 1;
+
+                fetch('/seha/public/service/togglePublish', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id, is_published: isPublished })
+                }).then(response => response.json()).then(data => {
+                    if (data.status === 'success') {
+                        icon.classList.toggle('fa-toggle-on');
+                        icon.classList.toggle('fa-toggle-off');
+                    }
+                });
+            });
+        });
     });
 </script>
+
+
