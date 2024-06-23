@@ -5,8 +5,26 @@ class ServiceController extends BaseController {
         $serviceRepository = new ServiceRepository();
         $userId = $_SESSION['user_id'];
         $services = $serviceRepository->findByUserId($userId);
-        $this->view('service/index', ['title' => 'My Services', 'services' => $services]);
+        $categoryRepository = new CategoryRepository();
+
+        $servicesWithCategoryNames = [];
+        foreach ($services as $service) {
+            $category = $categoryRepository->findById($service->category_id);
+            $serviceWithCategoryName = (object) [
+                'id' => $service->id,
+                'user_id' => $service->user_id,
+                'category_id' => $service->category_id,
+                'name' => $service->name,
+                'description' => $service->description,
+                'is_published' => $service->is_published,
+                'category_name' => $category->category_name
+            ];
+            $servicesWithCategoryNames[] = $serviceWithCategoryName;
+        }
+
+        $this->view('service/index', ['title' => 'My Services', 'services' => $servicesWithCategoryNames]);
     }
+
 
     public function createService() {
         AuthMiddleware::requireAuth();

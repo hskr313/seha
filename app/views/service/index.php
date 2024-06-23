@@ -9,6 +9,7 @@
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
+                    <th scope="col">Category</th>
                     <th scope="col">Name</th>
                     <th scope="col">Description</th>
                     <th scope="col">Published</th>
@@ -19,6 +20,7 @@
                 <?php foreach ($services ?? [] as $service): ?>
                     <tr data-id="<?php echo $service->id; ?>">
                         <th scope="row"><?php echo $service->id; ?></th>
+                        <td><?php echo htmlspecialchars($service->category_name); ?></td>
                         <td><?php echo htmlspecialchars($service->name); ?></td>
                         <td><?php echo htmlspecialchars($service->description); ?></td>
                         <td>
