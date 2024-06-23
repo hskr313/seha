@@ -2,19 +2,19 @@
 class ServiceEntity {
     public int $id;
     public int $user_id;
-    public int $category_id;
-    public string $service_type;
-    public string $title;
-    public string $description;
+    public ?int $category_id;
+    public ?string $service_type;
+    public ?string $title;
+    public ?string $description;
     public bool $is_published;
 
     public function __construct(
         int $id = null,
         int $user_id = null,
-        int $category_id = null,
-        string $service_type = '',
-        string $title = '',
-        string $description = '',
+        ?int $category_id = null,
+        ?string $service_type = '',
+        ?string $title = '',
+        ?string $description = '',
         bool $is_published = false
     ) {
         $this->id = $id;

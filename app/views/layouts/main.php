@@ -29,8 +29,8 @@
 
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/seha/public">
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-laugh-wink"></i>
+            <div class="sidebar-brand-icon">
+                <i class="fab fa-sellcast"></i>
             </div>
             <div class="sidebar-brand-text mx-3">Seha <sup>v1</sup></div>
         </a>
@@ -242,11 +242,11 @@
                              aria-labelledby="userDropdown">
                             <a class="dropdown-item" href="/seha/public/user/profile">
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Profile
+                                My Profile
                             </a>
                             <a class="dropdown-item" href="/seha/public/service">
                                 <i class="fas fa-star fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Services
+                                My Services
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
