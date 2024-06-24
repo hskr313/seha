@@ -29,7 +29,7 @@ $url = str_replace('/seha/public/', '', $url);
 $url = rtrim($url, '/');
 $url = explode('/', $url);
 
-$controllerName = !empty($url[0]) ? ucfirst($url[0]) . 'Controller' : 'HomeController';
+$controllerName = !empty($url[0]) ? ucfirst($url[0]) . 'Controller' : 'MarketPlaceController';
 $method = !empty($url[1]) ? $url[1] : 'index';
 $params = array_slice($url, 2);
 

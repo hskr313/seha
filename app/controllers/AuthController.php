@@ -10,7 +10,7 @@ class AuthController extends BaseController {
 
     public function login() {
         if (AuthMiddleware::isAuthenticated()){
-            header('Location: /seha/public/home');
+            header('Location: /seha/public/market-place');
             exit();
         }
 
@@ -28,7 +28,7 @@ class AuthController extends BaseController {
 
         if ($user && password_verify($password, $user->password)) {
             $_SESSION['user_id'] = $user->id;
-            header('Location: /seha/public/home');
+            header('Location: /seha/public/market-place');
         } else {
             header('Location: /seha/public/auth/login?error=invalid_credentials');
         }
@@ -44,11 +44,14 @@ class AuthController extends BaseController {
         $email = $_POST['email'];
         $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-        $this->userRepository->create([
-            'name' => $name,
-            'email' => $email,
-            'password' => $password,
-        ]);
+        $user = new UserEntity(
+            null,
+            $name,
+            $password,
+            $email,
+        );
+
+        $this->userRepository->create($user);
 
         header('Location: /seha/public/auth/login');
         exit();
