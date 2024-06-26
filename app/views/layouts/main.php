@@ -10,6 +10,36 @@
     <link href="/seha/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="/seha/public/css/sb-admin-2.min.css" rel="stylesheet">
+    <style>
+        .message-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #e3e6f0;
+        }
+        .message-item:hover {
+            background-color: #f8f9fc;
+        }
+        .message-details {
+            display: flex;
+            flex-direction: column;
+        }
+        .message-sender {
+            font-weight: bold;
+            color: #4e73df;
+        }
+        .message-content {
+            color: #858796;
+            font-size: 0.85rem;
+        }
+        .badge-counter {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 20%;
+            right: 30%;
+        }
+    </style>
 </head>
 <body id="page-top">
 <div id="wrapper">
@@ -69,7 +99,7 @@
                     <li class="nav-item dropdown no-arrow mx-1">
                         <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-envelope fa-fw"></i>
-                            <span class="badge badge-danger badge-counter">7</span>
+                            <span class="badge badge-danger badge-counter" id="notificationCount">0</span>
                         </a>
                         <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
                             <h6 class="dropdown-header">Message Center</h6>
@@ -183,12 +213,13 @@
                     data.forEach(conversation => {
                         const userId = conversation.sender_id == <?php echo $_SESSION['user_id']; ?> ? conversation.receiver_id : conversation.sender_id;
                         const userElement = document.createElement('div');
-                        userElement.classList.add('dropdown-item', 'd-flex', 'align-items-center');
+                        userElement.classList.add('message-item');
                         userElement.innerHTML = `
-                            <div>
-                                <span>Conversation with User ${userId}</span>
-                                <a href="/seha/public/message/getConversation?user_id=${userId}" class="btn btn-sm btn-primary ml-2">View</a>
-                            </div>`;
+                            <div class="message-details">
+                                <span class="message-sender">User ${userId}</span>
+                                <span class="message-content">${conversation.content}</span>
+                            </div>
+                            <a href="/seha/public/message/getConversation?user_id=${userId}" class="btn btn-sm btn-primary ml-2">View</a>`;
                         conversationsList.appendChild(userElement);
                     });
                 } else {
@@ -197,8 +228,18 @@
             });
     }
 
+    function updateNotificationCount() {
+        fetch('/seha/public/message/getUnreadMessageCount')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('notificationCount').textContent = data.unreadCount;
+                document.getElementById('messageCounter').textContent = data.unreadCount;
+            });
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         loadConversations();
+        updateNotificationCount();
     });
 </script>
 </body>

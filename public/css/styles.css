@@ -55,3 +55,19 @@ footer {
     background-color: var(--primary-color);
     color: var(--text-light-color);
 }
+
+.message.sent {
+    background-color: #d1e7dd;
+    text-align: right;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.message.received {
+    background-color: #f8d7da;
+    text-align: left;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
