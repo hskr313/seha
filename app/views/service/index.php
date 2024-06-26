@@ -17,7 +17,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($services ?? [] as $service): ?>
+                <?php foreach ($services as $service): ?>
                     <tr data-id="<?php echo $service->id; ?>">
                         <th scope="row"><?php echo $service->id; ?></th>
                         <td><?php echo htmlspecialchars($service->category_name); ?></td>
@@ -51,12 +51,16 @@
             <div class="modal-body">
                 <form id="createServiceForm">
                     <div class="form-group">
-                        <label for="name">Service Type</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                        <label for="category">Category</label>
+                        <select class="form-control" id="category" name="category_id" required>
+                            <?php foreach ($categories as $category): ?>
+                                <option value="<?php echo $category->id; ?>"><?php echo htmlspecialchars($category->category_name); ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="serviceTitle">Title</label>
-                        <input type="text" class="form-control" id="serviceTitle" name="title" required>
+                        <label for="serviceTitle">Name</label>
+                        <input type="text" class="form-control" id="serviceTitle" name="name" required>
                     </div>
                     <div class="form-group">
                         <label for="serviceDescription">Description</label>
@@ -79,8 +83,8 @@
             button.addEventListener('click', function() {
                 const row = this.closest('tr');
                 const id = row.getAttribute('data-id');
-                const nameCell = row.children[1];
-                const descriptionCell = row.children[2];
+                const nameCell = row.children[2];
+                const descriptionCell = row.children[3];
                 const publishCheckbox = row.querySelector('.btn-toggle-publish');
 
                 if (button.innerText === 'Edit') {

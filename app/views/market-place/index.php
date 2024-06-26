@@ -1,5 +1,6 @@
 <div class="container mt-4">
     <!-- Dropdown for categories -->
+    <!-- Index du market place -->
     <div class="mb-4">
         <label for="categorySelect">Choose a category:</label>
         <select id="categorySelect" class="form-control" onchange="filterByCategory(this.value)">

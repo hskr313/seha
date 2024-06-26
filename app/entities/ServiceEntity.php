@@ -1,6 +1,7 @@
 <?php
+
 class ServiceEntity {
-    public int $id;
+    public ?int $id;
     public int $user_id;
     public ?int $category_id;
     public ?string $name;
@@ -8,12 +9,12 @@ class ServiceEntity {
     public bool $is_published;
 
     public function __construct(
-        int     $id = null,
-        int     $user_id = null,
-        ?int    $category_id = null,
+        ?int $id = null,
+        int $user_id,
+        ?int $category_id = null,
         ?string $name = '',
         ?string $description = '',
-        bool    $is_published = false
+        bool $is_published = false
     ) {
         $this->id = $id;
         $this->user_id = $user_id;

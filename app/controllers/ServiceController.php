@@ -22,9 +22,14 @@ class ServiceController extends BaseController {
             $servicesWithCategoryNames[] = $serviceWithCategoryName;
         }
 
-        $this->view('service/index', ['title' => 'My Services', 'services' => $servicesWithCategoryNames]);
-    }
+        $categories = $categoryRepository->findAll();
 
+        $this->view('service/index', [
+            'title' => 'My Services',
+            'services' => $servicesWithCategoryNames,
+            'categories' => $categories
+        ]);
+    }
 
     public function createService() {
         AuthMiddleware::requireAuth();
@@ -37,7 +42,7 @@ class ServiceController extends BaseController {
 
         // Create and validate the ServiceEntity object
         $serviceEntity = new ServiceEntity(
-            null,
+            null, // Allow null for the ID
             $_SESSION['user_id'],
             $data['category_id'] ?? null,
             $data['name'] ?? '',
@@ -60,6 +65,7 @@ class ServiceController extends BaseController {
         exit();
     }
 
+
     public function updateService() {
         AuthMiddleware::requireAuth();
         $serviceRepository = new ServiceRepository();
@@ -77,8 +83,8 @@ class ServiceController extends BaseController {
         $serviceEntity->name = $name;
         $serviceEntity->description = $description;
 
-        // Log the created entity
-        error_log('Created entity: ' . print_r($serviceEntity, true));
+        // Log the updated entity
+        error_log('Updated entity: ' . print_r($serviceEntity, true));
 
         $result = $serviceRepository->update($serviceId, $serviceEntity);
 
