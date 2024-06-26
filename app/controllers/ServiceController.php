@@ -31,6 +31,21 @@ class ServiceController extends BaseController {
         ]);
     }
 
+    public function marketplace() {
+        AuthMiddleware::requireAuth();
+        $serviceRepository = new ServiceRepository();
+        $categoryRepository = new CategoryRepository();
+
+        $categories = $categoryRepository->findAll();
+        $servicesGroupedByCategory = $serviceRepository->findAllGroupedByCategoryWithUsernames();
+
+        $this->view('market-place/index', [
+            'title' => 'Marketplace',
+            'categories' => $categories,
+            'servicesGroupedByCategory' => $servicesGroupedByCategory
+        ]);
+    }
+
     public function createService() {
         AuthMiddleware::requireAuth();
         $serviceRepository = new ServiceRepository();
@@ -64,7 +79,6 @@ class ServiceController extends BaseController {
 
         exit();
     }
-
 
     public function updateService() {
         AuthMiddleware::requireAuth();
@@ -122,6 +136,21 @@ class ServiceController extends BaseController {
         } else {
             echo json_encode(['status' => 'error']);
         }
+        exit();
+    }
+
+    public function search() {
+        AuthMiddleware::requireAuth();
+        $query = $_GET['query'] ?? '';
+        $serviceRepository = new ServiceRepository();
+        $userRepository = new UserRepository();
+        $services = $serviceRepository->searchServices($query);
+
+        foreach ($services as $service) {
+            $service->username = $userRepository->findById($service->user_id)->username;
+        }
+        header('Content-Type: application/json');
+        echo json_encode($services);
         exit();
     }
 }
