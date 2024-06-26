@@ -23,5 +23,23 @@ class UserRepository extends BaseRepository {
         $data = $result->fetch_assoc();
         return $data['count'];
     }
+
+    // Je vais utiliser ça pour la messagerie.
+    public function findByUsername(string $username): array {
+        $query = "SELECT * FROM {$this->table} WHERE username LIKE ?";
+        $stmt = $this->db->prepare($query);
+        if (!$stmt) {
+            die("Prepare failed: " . $this->db->error);
+        }
+        $search = "%$username%";
+        $stmt->bind_param('s', $search);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if (!$result) {
+            die("Query failed: " . $this->db->error);
+        }
+        $rows = $result->fetch_all(MYSQLI_ASSOC);
+        return array_map([$this, 'mapToEntity'], $rows);
+    }
 }
 
