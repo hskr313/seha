@@ -266,7 +266,7 @@ buildings:
     - clinic-medical
     - dungeon
     - gopuram
-    - home
+    - market-place
     - hospital
     - hospital-alt
     - hospital-user
@@ -1266,7 +1266,7 @@ interfaces:
     - hashtag
     - heart
     - history
-    - home
+    - market-place
     - i-cursor
     - info
     - info-circle
@@ -1421,7 +1421,7 @@ maps:
     - heart
     - heartbeat
     - helicopter
-    - home
+    - market-place
     - hospital
     - image
     - images
@@ -1778,7 +1778,7 @@ objects:
     - helicopter
     - highlighter
     - holly-berry
-    - home
+    - market-place
     - hospital
     - hourglass
     - igloo

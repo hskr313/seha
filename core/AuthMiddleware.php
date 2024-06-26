@@ -31,7 +31,7 @@ class AuthMiddleware {
 
     public static function requireRole($roleName) {
         if (!self::hasRole($roleName)) {
-            header('Location: /seha/public/home');
+            header('Location: /seha/public/market-place');
             exit();
         }
     }

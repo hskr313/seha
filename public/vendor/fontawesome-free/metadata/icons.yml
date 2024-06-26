@@ -2938,7 +2938,7 @@ caravan:
   search:
     terms:
       - camper
-      - motor home
+      - motor market-place
       - rv
       - trailer
       - travel
@@ -10167,7 +10167,7 @@ home:
     - '1'
     - 5.0.0
     - 5.7.0
-  label: home
+  label: market-place
   search:
     terms:
       - abode
@@ -10431,7 +10431,7 @@ house-damage:
       - building
       - devastation
       - disaster
-      - home
+      - market-place
       - insurance
   styles:
     - solid
@@ -10445,7 +10445,7 @@ house-user:
   search:
     terms:
       - covid-19
-      - home
+      - market-place
       - isolation
       - quarantine
   styles:
@@ -10643,7 +10643,7 @@ igloo:
       - dome
       - dwelling
       - eskimo
-      - home
+      - market-place
       - house
       - ice
       - snow
@@ -11366,7 +11366,7 @@ laptop-house:
       - device
       - office
       - remote
-      - work from home
+      - work from market-place
   styles:
     - solid
   unicode: e066
