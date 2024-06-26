@@ -1,6 +1,6 @@
 <?php
 class TransactionEntity {
-    public int $id;
+    public ?int $id;
     public int $service_id;
     public int $provider_id;
     public int $receiver_id;
@@ -8,7 +8,7 @@ class TransactionEntity {
     public string $transaction_date;
 
     public function __construct(
-        int $id = null,
+        ?int $id = null,
         int $service_id = null,
         int $provider_id = null,
         int $receiver_id = null,

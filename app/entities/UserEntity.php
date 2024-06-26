@@ -1,6 +1,6 @@
 <?php
 class UserEntity {
-    public int $id;
+    public ?int $id;
     public string $username;
     public string $password;
     public string $email;
@@ -8,7 +8,7 @@ class UserEntity {
     public int $role_id;
 
     public function __construct(
-        int $id = null,
+        ?int $id = null,
         string $username = '',
         string $password = '',
         string $email = '',

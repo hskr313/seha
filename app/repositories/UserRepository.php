@@ -41,5 +41,29 @@ class UserRepository extends BaseRepository {
         $rows = $result->fetch_all(MYSQLI_ASSOC);
         return array_map([$this, 'mapToEntity'], $rows);
     }
+
+    public function getTimeCredit(int $userId): int {
+        $stmt = $this->db->prepare("SELECT time_credit FROM {$this->table} WHERE id = ?");
+        if (!$stmt) {
+            die("Prepare failed: " . $this->db->error);
+        }
+        $stmt->bind_param('i', $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if (!$result) {
+            die("Query failed: " . $this->db->error);
+        }
+        $data = $result->fetch_assoc();
+        return $data ? (int)$data['time_credit'] : 0;
+    }
+
+    public function updateTimeCredit(int $userId, int $newCredit): bool {
+        $stmt = $this->db->prepare("UPDATE {$this->table} SET time_credit = ? WHERE id = ?");
+        if (!$stmt) {
+            die("Prepare failed: " . $this->db->error);
+        }
+        $stmt->bind_param('ii', $newCredit, $userId);
+        return $stmt->execute();
+    }
 }
 

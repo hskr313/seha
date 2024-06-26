@@ -10,6 +10,7 @@
     <link href="/seha/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="/seha/public/css/sb-admin-2.min.css" rel="stylesheet">
+</head>
     <style>
         .message-item {
             display: flex;
@@ -70,21 +71,14 @@
                 <span>My Messages</span>
             </a>
         </li>
+
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-                <i class="fas fa-fw fa-wrench"></i>
-                <span>Utilities</span>
+            <a class="nav-link" href="/seha/public/transactions">
+                <i class="fas fa-receipt fa-sm fa-fw"></i>
+                <span>My Transactions</span>
             </a>
-            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Custom Utilities:</h6>
-                    <a class="collapse-item" href="/seha/public/utilities-color">Colors</a>
-                    <a class="collapse-item" href="/seha/public/utilities-border">Borders</a>
-                    <a class="collapse-item" href="/seha/public/utilities-animation">Animations</a>
-                    <a class="collapse-item" href="/seha/public/utilities-other">Other</a>
-                </div>
-            </div>
         </li>
+
         <div class="text-center d-none d-md-inline mt-5">
             <button class="rounded-circle border-0" id="sidebarToggle"></button>
         </div>
@@ -169,6 +163,9 @@
         </div>
     </div>
 </div>
+<!--<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>-->
+<!--<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>-->
+<!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>-->
 <script src="/seha/public/vendor/jquery/jquery.min.js"></script>
 <script src="/seha/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="/seha/public/vendor/jquery-easing/jquery.easing.min.js"></script>

@@ -4,6 +4,15 @@ class ServiceRepository extends BaseRepository {
         parent::__construct('services', ServiceEntity::class);
     }
 
+    public function findAll(): array {
+        $result = $this->db->query("SELECT * FROM {$this->table} WHERE is_published = 1");
+        if (!$result) {
+            die("Query failed: " . $this->db->error);
+        }
+        $rows = $result->fetch_all(MYSQLI_ASSOC);
+        return array_map([$this, 'mapToEntity'], $rows);
+    }
+
     public function findByUserId($userId) {
         return $this->findByCriteria(['user_id' => $userId]);
     }
@@ -53,7 +62,7 @@ class ServiceRepository extends BaseRepository {
         SELECT s.*, u.username 
         FROM services s
         JOIN users u ON s.user_id = u.id
-        WHERE s.name LIKE ? OR s.description LIKE ? OR u.username LIKE ?");
+        WHERE s.is_published = 1 AND (s.name LIKE ? OR s.description LIKE ? OR u.username LIKE ?) ");
         if (!$stmt) {
             die("Prepare failed: " . $this->db->error);
         }
@@ -66,7 +75,6 @@ class ServiceRepository extends BaseRepository {
         $rows = $result->fetch_all(MYSQLI_ASSOC);
         return array_map([$this, 'mapToEntity'], $rows);
     }
-
 
     public function findAllGroupedByCategoryWithUsernames() {
         $query = "
