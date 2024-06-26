@@ -71,6 +71,12 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="/seha/public/service/requests">
+                <i class="fas fa-comments fa-sm fa-fw"></i>
+                <span>My Requests</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                 <i class="fas fa-fw fa-wrench"></i>
                 <span>Utilities</span>

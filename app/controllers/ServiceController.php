@@ -153,4 +153,106 @@ class ServiceController extends BaseController {
         echo json_encode($services);
         exit();
     }
+
+    public function requestService() {
+        AuthMiddleware::requireAuth();
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $serviceRequest = new ServiceRequestEntity(
+            null,
+            $data['service_id'],
+            $_SESSION['user_id'],
+            null, // provider_id will be set when the service provider accepts the request
+            1, // assuming 1 is the status for 'pending'
+            $data['requested_hours'],
+            date('Y-m-d H:i:s')
+        );
+
+        $serviceRequestRepository = new ServiceRequestRepository();
+        $result = $serviceRequestRepository->create($serviceRequest);
+
+        header('Content-Type: application/json');
+        if ($result) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
+
+        exit();
+    }
+
+    public function updateServiceRequestStatus() {
+        AuthMiddleware::requireAuth();
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $serviceRequestRepository = new ServiceRequestRepository();
+        $serviceRequest = $serviceRequestRepository->findById($data['request_id']);
+        $serviceRequest->request_status_id = $data['status_id'];
+
+        $result = $serviceRequestRepository->update($serviceRequest->id, $serviceRequest);
+
+        header('Content-Type: application/json');
+        if ($result) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
+
+        exit();
+    }
+
+    public function completeServiceTransaction() {
+        AuthMiddleware::requireAuth();
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $requestId = $data['request_id'];
+
+        $serviceRequestRepository = new ServiceRequestRepository();
+        $serviceRequest = $serviceRequestRepository->findById($requestId);
+
+        if (!$serviceRequest) {
+            echo json_encode(['status' => 'error', 'message' => 'Service request not found']);
+            exit();
+        }
+
+        $transactionRepository = new TransactionRepository();
+        $result = $transactionRepository->createTransaction($serviceRequest);
+
+        if ($result) {
+            // Mettre à jour les crédits de temps des utilisateurs
+            $userRepository = new UserRepository();
+            $requester = $userRepository->findById($serviceRequest->requester_id);
+            $provider = $userRepository->findById($serviceRequest->provider_id);
+
+            if ($requester && $provider) {
+                $requester->time_credit -= $serviceRequest->requested_hours;
+                $provider->time_credit += $serviceRequest->requested_hours;
+                $userRepository->update($requester->id, $requester);
+                $userRepository->update($provider->id, $provider);
+
+                echo json_encode(['status' => 'success']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'User not found']);
+            }
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
+        exit();
+    }
+
+    public function getServiceRequests() {
+        AuthMiddleware::requireAuth();
+        $userId = $_SESSION['user_id'];
+        $serviceRequestRepository = new ServiceRequestRepository();
+        $requests = $serviceRequestRepository->findByProviderId($userId);
+
+        header('Content-Type: application/json');
+        echo json_encode($requests);
+        exit();
+    }
+
+    public function requests() {
+        AuthMiddleware::requireAuth();
+        $this->view('market-place/service_requests', ['title' => 'My Service Requests']);
+    }
 }
