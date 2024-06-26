@@ -19,6 +19,27 @@
     </form>
 </div>
 
+<style>
+    .message.sent {
+        background-color: var(--secondary-color);
+        border: solid var(--primary) 2px;
+        color: var(--primary);
+        text-align: right;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+
+    .message.received {
+        background-color: var(--primary);
+        color: var(--white);
+        text-align: left;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+</style>
+
 <script>
     document.getElementById('sendMessageForm').addEventListener('submit', function(event) {
         event.preventDefault();
@@ -44,6 +65,8 @@
             } else {
                 alert('Failed to send message');
             }
+        }).catch(error => {
+            alert('An error occurred: ' + error.message);
         });
     });
 </script>
