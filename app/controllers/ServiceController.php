@@ -72,27 +72,36 @@ class ServiceController extends BaseController {
 
         $data = json_decode(file_get_contents('php://input'), true);
 
-        // Log incoming data
-        error_log('Received data: ' . print_r($data, true));
+        if (!isset($data['id'])) {
+            error_log('ID is missing from the payload');
+            echo json_encode(['status' => 'error', 'message' => 'ID is required']);
+            exit();
+        }
 
-        $serviceId = $data['id'];
+        $serviceId = (int)$data['id'];
         $name = $data['name'] ?? '';
         $description = $data['description'] ?? '';
+        $isPublished = isset($data['is_published']) ? (int)$data['is_published'] : 0;
 
         $serviceEntity = $serviceRepository->findById($serviceId);
+
+        if (!$serviceEntity) {
+            error_log('Service not found with ID: ' . $serviceId);
+            echo json_encode(['status' => 'error', 'message' => 'Service not found']);
+            exit();
+        }
+
         $serviceEntity->name = $name;
         $serviceEntity->description = $description;
-
-        // Log the updated entity
-        error_log('Updated entity: ' . print_r($serviceEntity, true));
+        $serviceEntity->is_published = $isPublished;
 
         $result = $serviceRepository->update($serviceId, $serviceEntity);
 
         header('Content-Type: application/json');
         if ($result) {
-            echo json_encode(['status' => 'success']);
+            echo json_encode(['status' => 'success', 'data' => $serviceEntity]);
         } else {
-            echo json_encode(['status' => 'error']);
+            echo json_encode(['status' => 'error', 'message' => 'Failed to update service']);
         }
 
         exit();
@@ -106,32 +115,6 @@ class ServiceController extends BaseController {
         $serviceId = $data['id'];
 
         $result = $serviceRepository->delete($serviceId);
-
-        header('Content-Type: application/json');
-        if ($result) {
-            echo json_encode(['status' => 'success']);
-        } else {
-            echo json_encode(['status' => 'error']);
-        }
-        exit();
-    }
-
-    public function togglePublish() {
-        AuthMiddleware::requireAuth();
-        $serviceRepository = new ServiceRepository();
-
-        $data = json_decode(file_get_contents('php://input'), true);
-
-        // Log incoming data
-        error_log('Received data: ' . print_r($data, true));
-
-        $serviceId = $data['id'];
-        $isPublished = isset($data['is_published']) ? 1 : 0;
-
-        $serviceEntity = $serviceRepository->findById($serviceId);
-        $serviceEntity->is_published = $isPublished;
-
-        $result = $serviceRepository->update($serviceId, $serviceEntity);
 
         header('Content-Type: application/json');
         if ($result) {

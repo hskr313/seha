@@ -60,19 +60,44 @@ class BaseRepository {
         $values = [];
         foreach ($data as $column => $value) {
             $sets[] = "$column = ?";
+            // Convert the boolean value to an integer (0 or 1)
+            if (gettype($value) == 'boolean') {
+                $value = (int)$value;
+            }
             $values[] = $value;
         }
         $values[] = $id;
         $setString = implode(", ", $sets);
 
-        error_log(print_r($setString, true));
-
         $stmt = $this->db->prepare("UPDATE {$this->table} SET $setString WHERE id = ?");
+
         if (!$stmt) {
-            die("Prepare failed: " . $this->db->error);
+            error_log('SQL prepare failed: ' . $this->db->error);
+            return false;
         }
-        $stmt->bind_param(str_repeat('s', count($data)) . 'i', ...$values);
-        return $stmt->execute();
+
+        $bindTypes = '';
+
+        foreach ($data as $_ => $value) {
+            if (is_int($value)) {
+                $bindTypes .= 'i';
+            } elseif (is_float($value)) {
+                $bindTypes .= 'd';
+            } else {
+                $bindTypes .= 's';
+            }
+        }
+
+        $bindTypes .= 'i'; // for the id
+
+        $stmt->bind_param($bindTypes, ...$values);
+        $executeResult = $stmt->execute();
+
+        if (!$executeResult) {
+            error_log('Execute failed: ' . $stmt->error);
+        }
+
+        return $executeResult;
     }
 
     public function delete(int $id): bool {

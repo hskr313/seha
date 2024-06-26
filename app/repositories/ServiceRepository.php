@@ -13,7 +13,7 @@ class ServiceRepository extends BaseRepository {
     }
 
     public function findAllGroupedByCategory() {
-        $query = "SELECT s.*, c.category_name as category_name FROM {$this->table} s JOIN categories c ON s.category_id = c.id ORDER BY category_id";
+        $query = "SELECT s.*, c.category_name as category_name FROM {$this->table} s JOIN categories c ON s.category_id = c.id WHERE s.is_published = true ORDER BY category_id";
         $result = $this->db->query($query);
         if (!$result) {
             die("Query failed: " . $this->db->error);

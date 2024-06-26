@@ -138,26 +138,6 @@
             });
         });
 
-        document.querySelectorAll('.btn-toggle-publish').forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
-                const row = this.closest('tr');
-                const id = row.getAttribute('data-id');
-                const isPublished = this.checked ? 1 : 0;
-
-                fetch('/seha/public/service/togglePublish', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ id, is_published: isPublished })
-                }).then(response => response.json()).then(data => {
-                    if (data.status !== 'success') {
-                        alert('Failed to update publish status');
-                    }
-                });
-            });
-        });
-
         document.getElementById('createServiceForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
