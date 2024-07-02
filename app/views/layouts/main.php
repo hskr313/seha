@@ -163,80 +163,86 @@
         </div>
     </div>
 </div>
+<!-- Chargement des bibliothèques JavaScript nécessaires -->
 <!--<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>-->
 <!--<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>-->
 <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>-->
-<script src="/seha/public/vendor/jquery/jquery.min.js"></script>
-<script src="/seha/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/seha/public/vendor/jquery-easing/jquery.easing.min.js"></script>
-<script src="/seha/public/js/sb-admin-2.min.js"></script>
-<script src="/seha/public/vendor/chart.js/Chart.min.js"></script>
-<script src="/seha/public/js/demo/chart-area-demo.js"></script>
-<script src="/seha/public/js/demo/chart-pie-demo.js"></script>
+<script src="/seha/public/vendor/jquery/jquery.min.js"></script> <!-- Chargement de jQuery -->
+<script src="/seha/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> <!-- Chargement de Bootstrap -->
+<script src="/seha/public/vendor/jquery-easing/jquery.easing.min.js"></script> <!-- Chargement de jQuery Easing -->
+<script src="/seha/public/js/sb-admin-2.min.js"></script> <!-- Chargement des scripts personnalisés pour l'administration -->
+<script src="/seha/public/vendor/chart.js/Chart.min.js"></script> <!-- Chargement de Chart.js pour les graphiques -->
+<script src="/seha/public/js/demo/chart-area-demo.js"></script> <!-- Chargement des démos de graphiques en aires -->
+<script src="/seha/public/js/demo/chart-pie-demo.js"></script> <!-- Chargement des démos de graphiques en secteurs -->
+
 <script>
+    // Ajout d'un écouteur d'événements pour le champ de recherche d'utilisateur
     document.getElementById('searchUserName').addEventListener('input', function() {
-        const username = this.value;
-        if (username.length > 2) {
-            fetch(`/seha/public/message/searchUsers?username=${username}`)
-                .then(response => response.json())
+        const username = this.value; // Récupère la valeur entrée dans le champ
+        if (username.length > 2) { // Si la longueur de la valeur est supérieure à 2 caractères
+            fetch(`/seha/public/message/searchUsers?username=${username}`) // Effectue une requête pour rechercher des utilisateurs
+                .then(response => response.json()) // Convertit la réponse en JSON
                 .then(data => {
-                    const searchResults = document.getElementById('searchResults');
-                    searchResults.innerHTML = '';
-                    if (data.length > 0) {
-                        data.forEach(user => {
-                            const userElement = document.createElement('div');
-                            userElement.classList.add('dropdown-item', 'd-flex', 'align-items-center');
+                    const searchResults = document.getElementById('searchResults'); // Récupère l'élément pour afficher les résultats
+                    searchResults.innerHTML = ''; // Vide les résultats précédents
+                    if (data.length > 0) { // Si des utilisateurs sont trouvés
+                        data.forEach(user => { // Pour chaque utilisateur trouvé
+                            const userElement = document.createElement('div'); // Crée un nouvel élément div
+                            userElement.classList.add('dropdown-item', 'd-flex', 'align-items-center'); // Ajoute des classes CSS
                             userElement.innerHTML = `
                                 <div>
                                     <span>${user.username}</span>
                                     <a href="/seha/public/message/getConversation?user_id=${user.id}" class="btn btn-sm btn-primary ml-2">Message</a>
-                                </div>`;
-                            searchResults.appendChild(userElement);
+                                </div>`; // Définit le contenu HTML de l'élément
+                            searchResults.appendChild(userElement); // Ajoute l'élément aux résultats de recherche
                         });
                     } else {
-                        searchResults.innerHTML = '<div class="dropdown-item text-center">No users found</div>';
+                        searchResults.innerHTML = '<div class="dropdown-item text-center">No users found</div>'; // Affiche un message si aucun utilisateur n'est trouvé
                     }
                 });
         }
     });
 
+    // Fonction pour charger les conversations
     function loadConversations() {
-        fetch(`/seha/public/message/getAllConversations`)
-            .then(response => response.json())
+        fetch(`/seha/public/message/getAllConversations`) // Effectue une requête pour obtenir toutes les conversations
+            .then(response => response.json()) // Convertit la réponse en JSON
             .then(data => {
-                const conversationsList = document.getElementById('conversationsList');
-                conversationsList.innerHTML = '';
-                if (data.length > 0) {
-                    data.forEach(conversation => {
-                        const userId = conversation.sender_id == <?php echo $_SESSION['user_id']; ?> ? conversation.receiver_id : conversation.sender_id;
-                        const userElement = document.createElement('div');
-                        userElement.classList.add('message-item');
+                const conversationsList = document.getElementById('conversationsList'); // Récupère l'élément pour afficher les conversations
+                conversationsList.innerHTML = ''; // Vide les conversations précédentes
+                if (data.length > 0) { // Si des conversations sont trouvées
+                    data.forEach(conversation => { // Pour chaque conversation trouvée
+                        const userId = conversation.sender_id == <?php echo $_SESSION['user_id']; ?> ? conversation.receiver_id : conversation.sender_id; // Détermine l'ID de l'autre utilisateur
+                        const userElement = document.createElement('div'); // Crée un nouvel élément div
+                        userElement.classList.add('message-item'); // Ajoute une classe CSS
                         userElement.innerHTML = `
                             <div class="message-details">
                                 <span class="message-sender">User ${userId}</span>
                                 <span class="message-content">${conversation.content}</span>
                             </div>
-                            <a href="/seha/public/message/getConversation?user_id=${userId}" class="btn btn-sm btn-primary ml-2">View</a>`;
-                        conversationsList.appendChild(userElement);
+                            <a href="/seha/public/message/getConversation?user_id=${userId}" class="btn btn-sm btn-primary ml-2">View</a>`; // Définit le contenu HTML de l'élément
+                        conversationsList.appendChild(userElement); // Ajoute l'élément à la liste des conversations
                     });
                 } else {
-                    conversationsList.innerHTML = '<div class="dropdown-item text-center">No conversations found</div>';
+                    conversationsList.innerHTML = '<div class="dropdown-item text-center">No conversations found</div>'; // Affiche un message si aucune conversation n'est trouvée
                 }
             });
     }
 
+    // Fonction pour mettre à jour le nombre de notifications
     function updateNotificationCount() {
-        fetch('/seha/public/message/getUnreadMessageCount')
-            .then(response => response.json())
+        fetch('/seha/public/message/getUnreadMessageCount') // Effectue une requête pour obtenir le nombre de messages non lus
+            .then(response => response.json()) // Convertit la réponse en JSON
             .then(data => {
-                document.getElementById('notificationCount').textContent = data.unreadCount;
-                document.getElementById('messageCounter').textContent = data.unreadCount;
+                document.getElementById('notificationCount').textContent = data.unreadCount; // Met à jour le compteur de notifications
+                document.getElementById('messageCounter').textContent = data.unreadCount; // Met à jour le compteur de messages
             });
     }
 
+    // Ajoute un écouteur d'événements pour le chargement du document
     document.addEventListener('DOMContentLoaded', function() {
-        loadConversations();
-        updateNotificationCount();
+        loadConversations(); // Charge les conversations
+        updateNotificationCount(); // Met à jour le nombre de notifications
     });
 </script>
 </body>

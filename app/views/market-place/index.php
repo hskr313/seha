@@ -64,88 +64,91 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Fonction pour rechercher des services
         function searchServices() {
-            const query = document.getElementById('searchInput').value;
-            fetch('/seha/public/marketplace/search?query=' + encodeURIComponent(query))
-                .then(response => response.json())
+            const query = document.getElementById('searchInput').value; // Récupère la valeur du champ de recherche
+            fetch('/seha/public/marketplace/search?query=' + encodeURIComponent(query)) // Envoie une requête pour rechercher des services
+                .then(response => response.json()) // Convertit la réponse en JSON
                 .then(data => {
-                    const tableBody = document.querySelector('#servicesTable tbody');
-                    tableBody.innerHTML = ''; // Clear the existing table body
+                    const tableBody = document.querySelector('#servicesTable tbody'); // Sélectionne le corps du tableau
+                    tableBody.innerHTML = ''; // Vide le corps du tableau existant
 
-                    if (data.length > 0) {
-                        data.forEach(service => {
-                            const row = document.createElement('tr');
+                    if (data.length > 0) { // Si des services sont trouvés
+                        data.forEach(service => { // Pour chaque service trouvé
+                            const row = document.createElement('tr'); // Crée une nouvelle ligne de tableau
 
-                            const nameCell = document.createElement('td');
-                            nameCell.textContent = service.name;
-                            nameCell.style.padding = '8px'; // Add cell style
-                            row.appendChild(nameCell);
+                            const nameCell = document.createElement('td'); // Crée une cellule pour le nom
+                            nameCell.textContent = service.name; // Définit le texte de la cellule
+                            nameCell.style.padding = '8px'; // Ajoute du style à la cellule
+                            row.appendChild(nameCell); // Ajoute la cellule à la ligne
 
-                            const descriptionCell = document.createElement('td');
-                            descriptionCell.textContent = service.description;
-                            descriptionCell.style.padding = '8px'; // Add cell style
-                            row.appendChild(descriptionCell);
+                            const descriptionCell = document.createElement('td'); // Crée une cellule pour la description
+                            descriptionCell.textContent = service.description; // Définit le texte de la cellule
+                            descriptionCell.style.padding = '8px'; // Ajoute du style à la cellule
+                            row.appendChild(descriptionCell); // Ajoute la cellule à la ligne
 
-                            const usernameCell = document.createElement('td');
-                            usernameCell.textContent = service.username ?? '';
-                            usernameCell.style.padding = '8px'; // Add cell style
-                            row.appendChild(usernameCell);
+                            const usernameCell = document.createElement('td'); // Crée une cellule pour le nom d'utilisateur
+                            usernameCell.textContent = service.username ?? ''; // Définit le texte de la cellule
+                            usernameCell.style.padding = '8px'; // Ajoute du style à la cellule
+                            row.appendChild(usernameCell); // Ajoute la cellule à la ligne
 
-                            const actionsCell = document.createElement('td');
-                            actionsCell.style.padding = '8px'; // Add cell style
-                            const requestButton = document.createElement('button');
-                            requestButton.className = 'btn btn-primary';
-                            requestButton.setAttribute('data-toggle', 'modal');
-                            requestButton.setAttribute('data-target', '#serviceModal');
-                            requestButton.setAttribute('data-service-id', service.id);
-                            requestButton.setAttribute('data-name', service.name);
-                            requestButton.setAttribute('data-description', service.description);
-                            requestButton.setAttribute('data-username', service.username);
-                            requestButton.textContent = 'Request Service';
-                            actionsCell.appendChild(requestButton);
-                            row.appendChild(actionsCell);
+                            const actionsCell = document.createElement('td'); // Crée une cellule pour les actions
+                            actionsCell.style.padding = '8px'; // Ajoute du style à la cellule
+                            const requestButton = document.createElement('button'); // Crée un bouton pour demander un service
+                            requestButton.className = 'btn btn-primary'; // Ajoute des classes CSS au bouton
+                            requestButton.setAttribute('data-toggle', 'modal'); // Ajoute l'attribut pour ouvrir le modal
+                            requestButton.setAttribute('data-target', '#serviceModal'); // Spécifie le modal à ouvrir
+                            requestButton.setAttribute('data-service-id', service.id); // Définit l'ID du service
+                            requestButton.setAttribute('data-name', service.name); // Définit le nom du service
+                            requestButton.setAttribute('data-description', service.description); // Définit la description du service
+                            requestButton.setAttribute('data-username', service.username); // Définit le nom d'utilisateur du service
+                            requestButton.textContent = 'Request Service'; // Définit le texte du bouton
+                            actionsCell.appendChild(requestButton); // Ajoute le bouton à la cellule
+                            row.appendChild(actionsCell); // Ajoute la cellule à la ligne
 
-                            tableBody.appendChild(row);
+                            tableBody.appendChild(row); // Ajoute la ligne au corps du tableau
                         });
                     } else {
-                        const row = document.createElement('tr');
-                        const cell = document.createElement('td');
-                        cell.setAttribute('colspan', '4');
-                        cell.textContent = 'No services available.';
-                        cell.style.textAlign = 'center'; // Add cell style
-                        row.appendChild(cell);
-                        tableBody.appendChild(row);
+                        const row = document.createElement('tr'); // Crée une nouvelle ligne de tableau
+                        const cell = document.createElement('td'); // Crée une cellule
+                        cell.setAttribute('colspan', '4'); // Définit l'attribut colspan de la cellule
+                        cell.textContent = 'No services available.'; // Définit le texte de la cellule
+                        cell.style.textAlign = 'center'; // Centre le texte dans la cellule
+                        row.appendChild(cell); // Ajoute la cellule à la ligne
+                        tableBody.appendChild(row); // Ajoute la ligne au corps du tableau
                     }
                 });
         }
 
-        document.getElementById('searchButton').addEventListener('click', searchServices);
+        document.getElementById('searchButton').addEventListener('click', searchServices); // Ajoute un écouteur d'événement au bouton de recherche
 
+        // Gestion de l'affichage du modal
         $('#serviceModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var serviceId = button.data('service-id');
-            var name = button.data('name');
-            var description = button.data('description');
-            var username = button.data('username');
+            var button = $(event.relatedTarget); // Bouton qui a déclenché le modal
+            var serviceId = button.data('service-id'); // Récupère l'ID du service
+            var name = button.data('name'); // Récupère le nom du service
+            var description = button.data('description'); // Récupère la description du service
+            var username = button.data('username'); // Récupère le nom d'utilisateur du service
 
-            var modal = $(this);
-            modal.find('#modalServiceName').text(name);
-            modal.find('#modalServiceDescription').text(description);
-            modal.find('#modalServiceUsername').text('By ' + username);
-            modal.find('#requestServiceButton').data('service-id', serviceId);
+            var modal = $(this); // Sélectionne le modal actuel
+            modal.find('#modalServiceName').text(name); // Définit le nom du service dans le modal
+            modal.find('#modalServiceDescription').text(description); // Définit la description du service dans le modal
+            modal.find('#modalServiceUsername').text('By ' + username); // Définit le nom d'utilisateur du service dans le modal
+            modal.find('#requestServiceButton').data('service-id', serviceId); // Définit l'ID du service pour le bouton de demande
         });
 
+        // Gestion de la demande de service
         document.getElementById('requestServiceButton').addEventListener('click', function() {
-            var serviceId = $(this).data('service-id');
-            var hours = document.getElementById('hoursInput').value;
+            var serviceId = $(this).data('service-id'); // Récupère l'ID du service
+            var hours = document.getElementById('hoursInput').value; // Récupère le nombre d'heures
 
-            if (hours <= 0) {
+            if (hours <= 0) { // Vérifie si le nombre d'heures est valide
                 alert('Please enter a valid number of hours.');
                 return;
             }
 
             fetch('/seha/public/marketplace/requestService', {
-                method: 'POST',
+                method: 'POST', // Utilise la méthode POST
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -154,18 +157,18 @@
                     hours: hours
                 })
             })
-                .then(response => response.json())
+                .then(response => response.json()) // Convertit la réponse en JSON
                 .then(data => {
-                    if (data.success) {
+                    if (data.success) { // Si la demande a réussi
                         alert('Service requested successfully.');
-                        $('#serviceModal').modal('hide');
-                    } else {
+                        $('#serviceModal').modal('hide'); // Cache le modal
+                    } else { // Si la demande a échoué
                         alert('Failed to request service: ' + data.message);
                     }
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => console.error('Error:', error)); // Affiche une erreur dans la console
         });
 
-        $('#servicesTable').DataTable(); // Initialize DataTables
+        $('#servicesTable').DataTable(); // Initialise DataTables
     });
 </script>
