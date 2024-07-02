@@ -1,167 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title><?php echo isset($title) ? $title : 'Service Exchange'; ?></title>
-    <link href="/seha/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link href="/seha/public/css/sb-admin-2.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title><?php echo isset($title) ? $title : 'Service Exchange'; ?></title>
+  <link href="/seha/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet">
+  <link href="/seha/public/css/sb-admin-2.min.css" rel="stylesheet">
 </head>
-    <style>
-        .message-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid #e3e6f0;
-        }
-        .message-item:hover {
-            background-color: #f8f9fc;
-        }
-        .message-details {
-            display: flex;
-            flex-direction: column;
-        }
-        .message-sender {
-            font-weight: bold;
-            color: #4e73df;
-        }
-        .message-content {
-            color: #858796;
-            font-size: 0.85rem;
-        }
-        .badge-counter {
-            position: absolute;
-            transform: translate(-50%, -50%);
-            top: 20%;
-            right: 30%;
-        }
-    </style>
+<style>
+  .message-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #e3e6f0;
+  }
+
+  .message-item:hover {
+    background-color: #f8f9fc;
+  }
+
+  .message-details {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .message-sender {
+    font-weight: bold;
+    color: #4e73df;
+  }
+
+  .message-content {
+    color: #858796;
+    font-size: 0.85rem;
+  }
+
+  .badge-counter {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 20%;
+    right: 30%;
+  }
+</style>
 </head>
 <body id="page-top">
 <div id="wrapper">
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/seha/public">
-            <div class="sidebar-brand-icon">
-                <i class="fab fa-sellcast"></i>
-            </div>
-            <div class="sidebar-brand-text mx-3">Seha <sup>v1</sup></div>
-        </a>
-        <hr class="sidebar-divider my-0">
-        <li class="nav-item active">
-            <a class="nav-link" href="/seha/public">
-                <i class="fa fa-exchange-alt"></i>
-                <span>Marketplace</span></a>
-        </li>
-        <hr class="sidebar-divider">
-        <div class="sidebar-heading">Utilities</div>
-        <li class="nav-item">
-            <a class="nav-link" href="/seha/public/service">
-                <i class="fas fa-star fa-sm fa-fw"></i>
-                <span>My Services</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/seha/public/message/getAllConversations">
-                <i class="fas fa-envelope fa-sm fa-fw"></i>
-                <span>My Messages</span>
-            </a>
-        </li>
+  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/seha/public">
+      <div class="sidebar-brand-icon">
+        <i class="fab fa-sellcast"></i>
+      </div>
+      <div class="sidebar-brand-text mx-3">Seha <sup>v1</sup></div>
+    </a>
+    <hr class="sidebar-divider my-0">
+    <li class="nav-item active">
+      <a class="nav-link" href="/seha/public">
+        <i class="fa fa-exchange-alt"></i>
+        <span>Marketplace</span></a>
+    </li>
+    <hr class="sidebar-divider">
+    <div class="sidebar-heading">Utilities</div>
+    <li class="nav-item">
+      <a class="nav-link" href="/seha/public/service">
+        <i class="fas fa-star fa-sm fa-fw"></i>
+        <span>My Services</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/seha/public/message/getAllConversations">
+        <i class="fas fa-envelope fa-sm fa-fw"></i>
+        <span>My Messages</span>
+      </a>
+    </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="/seha/public/transactions">
-                <i class="fas fa-receipt fa-sm fa-fw"></i>
-                <span>My Transactions</span>
-            </a>
-        </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/seha/public/transactions">
+        <i class="fas fa-receipt fa-sm fa-fw"></i>
+        <span>My Transactions</span>
+      </a>
+    </li>
 
-        <div class="text-center d-none d-md-inline mt-5">
-            <button class="rounded-circle border-0" id="sidebarToggle"></button>
-        </div>
-    </ul>
-    <div id="content-wrapper" class="d-flex flex-column">
-        <div id="content">
-            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                    <i class="fa fa-bars"></i>
-                </button>
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item dropdown no-arrow mx-1">
-                        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-envelope fa-fw"></i>
-                            <span class="badge badge-danger badge-counter" id="notificationCount">0</span>
-                        </a>
-                        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-                            <h6 class="dropdown-header">Message Center</h6>
-                            <form id="searchUserForm" class="px-3 pb-3">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="searchUserName" placeholder="Search users by username">
-                                </div>
-                            </form>
-                            <div id="searchResults" class="px-3"></div>
-                            <div id="conversationsList" class="px-3">
-                                <!-- Conversations will be loaded here dynamically -->
-                            </div>
-                            <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-                        </div>
-                    </li>
-                    <div class="topbar-divider d-none d-sm-block"></div>
-                    <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <?php $user = AuthMiddleware::getUser(); ?>
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 medium"><?php echo $user->username; ?></span>
-                            <img class="img-profile rounded-circle" src="/seha/public/img/undraw_profile.svg">
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="/seha/public/user/profile">
-                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                My Profile
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Logout
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-            <div class="container-fluid">
-                <?php echo $content; ?>
-            </div>
-        </div>
-        <footer class="sticky-footer bg-white">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span>&copy; Service Exchange 2024</span>
-                </div>
-            </div>
-        </footer>
+    <div class="text-center d-none d-md-inline mt-5">
+      <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>
+  </ul>
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+      <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+          <i class="fa fa-bars"></i>
+        </button>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-envelope fa-fw"></i>
+              <span class="badge badge-danger badge-counter" id="notificationCount">0</span>
+            </a>
+            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                 aria-labelledby="messagesDropdown">
+              <h6 class="dropdown-header">Message Center</h6>
+              <form id="searchUserForm" class="px-3 pb-3">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="searchUserName" placeholder="Search users by username">
+                </div>
+              </form>
+              <div id="searchResults" class="px-3"></div>
+              <div id="conversationsList" class="px-3">
+                <!-- Conversations will be loaded here dynamically -->
+              </div>
+              <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+            </div>
+          </li>
+          <div class="topbar-divider d-none d-sm-block"></div>
+          <li class="nav-item dropdown no-arrow">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+              <?php $user = AuthMiddleware::getUser(); ?>
+              <span class="mr-2 d-none d-lg-inline text-gray-600 medium"><?php echo $user->username; ?></span>
+              <img class="img-profile rounded-circle" src="/seha/public/img/undraw_profile.svg">
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+              <a class="dropdown-item" href="/seha/public/user/profile">
+                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                My Profile
+              </a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                Logout
+              </a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <div class="container-fluid">
+        <?php echo $content; ?>
+      </div>
+    </div>
+    <footer class="sticky-footer bg-white">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>&copy; Service Exchange 2024</span>
+        </div>
+      </div>
+    </footer>
+  </div>
 </div>
 <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
+  <i class="fas fa-angle-up"></i>
 </a>
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="/seha/public/auth/logout">Logout</a>
-            </div>
-        </div>
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-primary" href="/seha/public/auth/logout">Logout</a>
+      </div>
     </div>
+  </div>
 </div>
 <!-- Chargement des bibliothèques JavaScript nécessaires -->
 <!--<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>-->
@@ -170,80 +181,81 @@
 <script src="/seha/public/vendor/jquery/jquery.min.js"></script> <!-- Chargement de jQuery -->
 <script src="/seha/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> <!-- Chargement de Bootstrap -->
 <script src="/seha/public/vendor/jquery-easing/jquery.easing.min.js"></script> <!-- Chargement de jQuery Easing -->
-<script src="/seha/public/js/sb-admin-2.min.js"></script> <!-- Chargement des scripts personnalisés pour l'administration -->
+<script src="/seha/public/js/sb-admin-2.min.js"></script>
+<!-- Chargement des scripts personnalisés pour l'administration -->
 <script src="/seha/public/vendor/chart.js/Chart.min.js"></script> <!-- Chargement de Chart.js pour les graphiques -->
 <script src="/seha/public/js/demo/chart-area-demo.js"></script> <!-- Chargement des démos de graphiques en aires -->
 <script src="/seha/public/js/demo/chart-pie-demo.js"></script> <!-- Chargement des démos de graphiques en secteurs -->
 
 <script>
-    // Ajout d'un écouteur d'événements pour le champ de recherche d'utilisateur
-    document.getElementById('searchUserName').addEventListener('input', function() {
-        const username = this.value; // Récupère la valeur entrée dans le champ
-        if (username.length > 2) { // Si la longueur de la valeur est supérieure à 2 caractères
-            fetch(`/seha/public/message/searchUsers?username=${username}`) // Effectue une requête pour rechercher des utilisateurs
-                .then(response => response.json()) // Convertit la réponse en JSON
-                .then(data => {
-                    const searchResults = document.getElementById('searchResults'); // Récupère l'élément pour afficher les résultats
-                    searchResults.innerHTML = ''; // Vide les résultats précédents
-                    if (data.length > 0) { // Si des utilisateurs sont trouvés
-                        data.forEach(user => { // Pour chaque utilisateur trouvé
-                            const userElement = document.createElement('div'); // Crée un nouvel élément div
-                            userElement.classList.add('dropdown-item', 'd-flex', 'align-items-center'); // Ajoute des classes CSS
-                            userElement.innerHTML = `
+  // Ajout d'un écouteur d'événements pour le champ de recherche d'utilisateur
+  document.getElementById('searchUserName').addEventListener('input', function () {
+    const username = this.value; // Récupère la valeur entrée dans le champ
+    if (username.length > 2) { // Si la longueur de la valeur est supérieure à 2 caractères
+      fetch(`/seha/public/message/searchUsers?username=${username}`) // Effectue une requête pour rechercher des utilisateurs
+          .then(response => response.json()) // Convertit la réponse en JSON
+          .then(data => {
+            const searchResults = document.getElementById('searchResults'); // Récupère l'élément pour afficher les résultats
+            searchResults.innerHTML = ''; // Vide les résultats précédents
+            if (data.length > 0) { // Si des utilisateurs sont trouvés
+              data.forEach(user => { // Pour chaque utilisateur trouvé
+                const userElement = document.createElement('div'); // Crée un nouvel élément div
+                userElement.classList.add('dropdown-item', 'd-flex', 'align-items-center'); // Ajoute des classes CSS
+                userElement.innerHTML = `
                                 <div>
                                     <span>${user.username}</span>
                                     <a href="/seha/public/message/getConversation?user_id=${user.id}" class="btn btn-sm btn-primary ml-2">Message</a>
                                 </div>`; // Définit le contenu HTML de l'élément
-                            searchResults.appendChild(userElement); // Ajoute l'élément aux résultats de recherche
-                        });
-                    } else {
-                        searchResults.innerHTML = '<div class="dropdown-item text-center">No users found</div>'; // Affiche un message si aucun utilisateur n'est trouvé
-                    }
-                });
-        }
-    });
+                searchResults.appendChild(userElement); // Ajoute l'élément aux résultats de recherche
+              });
+            } else {
+              searchResults.innerHTML = '<div class="dropdown-item text-center">No users found</div>'; // Affiche un message si aucun utilisateur n'est trouvé
+            }
+          });
+    }
+  });
 
-    // Fonction pour charger les conversations
-    function loadConversations() {
-        fetch(`/seha/public/message/getAllConversations`) // Effectue une requête pour obtenir toutes les conversations
-            .then(response => response.json()) // Convertit la réponse en JSON
-            .then(data => {
-                const conversationsList = document.getElementById('conversationsList'); // Récupère l'élément pour afficher les conversations
-                conversationsList.innerHTML = ''; // Vide les conversations précédentes
-                if (data.length > 0) { // Si des conversations sont trouvées
-                    data.forEach(conversation => { // Pour chaque conversation trouvée
-                        const userId = conversation.sender_id == <?php echo $_SESSION['user_id']; ?> ? conversation.receiver_id : conversation.sender_id; // Détermine l'ID de l'autre utilisateur
-                        const userElement = document.createElement('div'); // Crée un nouvel élément div
-                        userElement.classList.add('message-item'); // Ajoute une classe CSS
-                        userElement.innerHTML = `
+  // Fonction pour charger les conversations
+  function loadConversations() {
+    fetch(`/seha/public/message/getAllConversations`) // Effectue une requête pour obtenir toutes les conversations
+        .then(response => response.json()) // Convertit la réponse en JSON
+        .then(data => {
+          const conversationsList = document.getElementById('conversationsList'); // Récupère l'élément pour afficher les conversations
+          conversationsList.innerHTML = ''; // Vide les conversations précédentes
+          if (data.length > 0) { // Si des conversations sont trouvées
+            data.forEach(conversation => { // Pour chaque conversation trouvée
+              const userId = conversation.sender_id == <?php echo $_SESSION['user_id']; ?> ? conversation.receiver_id : conversation.sender_id; // Détermine l'ID de l'autre utilisateur
+              const userElement = document.createElement('div'); // Crée un nouvel élément div
+              userElement.classList.add('message-item'); // Ajoute une classe CSS
+              userElement.innerHTML = `
                             <div class="message-details">
                                 <span class="message-sender">User ${userId}</span>
                                 <span class="message-content">${conversation.content}</span>
                             </div>
                             <a href="/seha/public/message/getConversation?user_id=${userId}" class="btn btn-sm btn-primary ml-2">View</a>`; // Définit le contenu HTML de l'élément
-                        conversationsList.appendChild(userElement); // Ajoute l'élément à la liste des conversations
-                    });
-                } else {
-                    conversationsList.innerHTML = '<div class="dropdown-item text-center">No conversations found</div>'; // Affiche un message si aucune conversation n'est trouvée
-                }
+              conversationsList.appendChild(userElement); // Ajoute l'élément à la liste des conversations
             });
-    }
+          } else {
+            conversationsList.innerHTML = '<div class="dropdown-item text-center">No conversations found</div>'; // Affiche un message si aucune conversation n'est trouvée
+          }
+        });
+  }
 
-    // Fonction pour mettre à jour le nombre de notifications
-    function updateNotificationCount() {
-        fetch('/seha/public/message/getUnreadMessageCount') // Effectue une requête pour obtenir le nombre de messages non lus
-            .then(response => response.json()) // Convertit la réponse en JSON
-            .then(data => {
-                document.getElementById('notificationCount').textContent = data.unreadCount; // Met à jour le compteur de notifications
-                document.getElementById('messageCounter').textContent = data.unreadCount; // Met à jour le compteur de messages
-            });
-    }
+  // Fonction pour mettre à jour le nombre de notifications
+  function updateNotificationCount() {
+    fetch('/seha/public/message/getUnreadMessageCount') // Effectue une requête pour obtenir le nombre de messages non lus
+        .then(response => response.json()) // Convertit la réponse en JSON
+        .then(data => {
+          document.getElementById('notificationCount').textContent = data.unreadCount; // Met à jour le compteur de notifications
+          document.getElementById('messageCounter').textContent = data.unreadCount; // Met à jour le compteur de messages
+        });
+  }
 
-    // Ajoute un écouteur d'événements pour le chargement du document
-    document.addEventListener('DOMContentLoaded', function() {
-        loadConversations(); // Charge les conversations
-        updateNotificationCount(); // Met à jour le nombre de notifications
-    });
+  // Ajoute un écouteur d'événements pour le chargement du document
+  document.addEventListener('DOMContentLoaded', function () {
+    loadConversations(); // Charge les conversations
+    updateNotificationCount(); // Met à jour le nombre de notifications
+  });
 </script>
 </body>
 </html>
